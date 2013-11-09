@@ -1,5 +1,3 @@
-import cv
-import cv2
 from SimpleCV import *
 import pygame
 import pybrain
@@ -57,6 +55,8 @@ def main():
 	# r.save('postimage.JPG')
 	retrain = False
 	BGIMAGE = 'xo4.JPG'
+	BGIMAGE = 'postimage.JPG'
+
 	if retrain:
 		net = buildNetwork(4, 16, 2, bias=True)
 	else:
@@ -91,7 +91,7 @@ def main():
 
 	screen = second.crop().invert()
 	screen = screen.crop(screen.width/2, screen.height/2, screen.width-50, screen.height-20, centered=True)
-	screen.show()
+	#screen.show()
 	w = screen.width * 1.0
 	h = screen.height * 1.0
 	elements = screen.findBlobs()
@@ -105,11 +105,11 @@ def main():
 
 
 	for b in circles:
-		b.show(color=(255,0,0))
+		#b.show(color=(255,0,0))
 		print "Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
 		# cv.WaitKey(10)
 	for b in rectangles:
-		b.show(color=(0,255,0))
+		#b.show(color=(0,255,0))
 		print "Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
 		# cv.WaitKey(10)
 	centers = []
@@ -144,7 +144,7 @@ def main():
 			features = []
 			print b.width
 			i = b.blobImage().binarize()
-			b.blobImage().show()
+			#b.blobImage().show()
 			i1 = raw_input()
 			if i1 == "0":
 				end = [0,1]
@@ -184,14 +184,14 @@ def main():
 		v = net.activate(features)
 		print v
 		if v[0] > v[1]:
-			b.show(color=(0,0,255))
+			#b.show(color=(0,0,255))
 			if old[2] == 'rec':
 				class1.append(old[1])
 			else:
 				class2.append(old[1])
 			pass
 		else:
-			b.show(color=(0,255,255))
+			#b.show(color=(0,255,255))
 			if old[2] == 'rec':
 				class3.append(old[1])
 			else:
@@ -205,14 +205,9 @@ def main():
 	# 	cv.WaitKey(10)
 	 
 	
-	print len(class1)
-	print len(class2)
-	print len(class3)
-	print len(class4)
+
 	class5 = set(circles) - set(class1 + class2 + class3 + class4)
 	class6 = set(rectangles) - set(class1 + class2 + class3 + class4 + [x[0] for x in centers])
-	print len(class5)
-	print len(class6)
 
 
 	classes = [class1,class2,class3,class4,class5,class6]
@@ -241,8 +236,7 @@ def intersect(A,B,C,D):
     return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
 if __name__ == '__main__':
 	# app.run(host='0.0.0.0',port=80)
-	app.run(host='127.0.0.1',port=5000)
+	app.run(host='127.0.0.1',port=5000, debug=True)
 
 	# main()
 
-	# 37 87 98
