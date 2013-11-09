@@ -10,7 +10,8 @@
 		43365324182DDA2600EA8CBF /* PBUIGenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43365323182DDA2600EA8CBF /* PBUIGenViewController.m */; };
 		43365327182DDA3800EA8CBF /* PBGameGenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43365326182DDA3800EA8CBF /* PBGameGenViewController.m */; };
 		4336532A182DDBFC00EA8CBF /* PBDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43365329182DDBFC00EA8CBF /* PBDataViewController.m */; };
-		4336532D182DFBD500EA8CBF /* PBUIGenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4336532C182DFBD500EA8CBF /* PBUIGenView.m */; };
+		43365333182E3AB300EA8CBF /* PBComponentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43365332182E3AB300EA8CBF /* PBComponentViewController.m */; };
+		43365336182EC48E00EA8CBF /* PBPropertyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43365335182EC48E00EA8CBF /* PBPropertyViewController.m */; };
 		4376AC24182DB967007EEFFA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376AC23182DB967007EEFFA /* Foundation.framework */; };
 		4376AC26182DB967007EEFFA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376AC25182DB967007EEFFA /* CoreGraphics.framework */; };
 		4376AC28182DB967007EEFFA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376AC27182DB967007EEFFA /* UIKit.framework */; };
@@ -46,8 +47,10 @@
 		43365326182DDA3800EA8CBF /* PBGameGenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBGameGenViewController.m; sourceTree = "<group>"; };
 		43365328182DDBFC00EA8CBF /* PBDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBDataViewController.h; sourceTree = "<group>"; };
 		43365329182DDBFC00EA8CBF /* PBDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBDataViewController.m; sourceTree = "<group>"; };
-		4336532B182DFBD500EA8CBF /* PBUIGenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBUIGenView.h; sourceTree = "<group>"; };
-		4336532C182DFBD500EA8CBF /* PBUIGenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBUIGenView.m; sourceTree = "<group>"; };
+		43365331182E3AB300EA8CBF /* PBComponentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBComponentViewController.h; sourceTree = "<group>"; };
+		43365332182E3AB300EA8CBF /* PBComponentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBComponentViewController.m; sourceTree = "<group>"; };
+		43365334182EC48E00EA8CBF /* PBPropertyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBPropertyViewController.h; sourceTree = "<group>"; };
+		43365335182EC48E00EA8CBF /* PBPropertyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBPropertyViewController.m; sourceTree = "<group>"; };
 		4376AC20182DB967007EEFFA /* ProtoBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtoBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4376AC23182DB967007EEFFA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4376AC25182DB967007EEFFA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -132,8 +135,10 @@
 		4376AC29182DB967007EEFFA /* ProtoBoard */ = {
 			isa = PBXGroup;
 			children = (
-				4336532B182DFBD500EA8CBF /* PBUIGenView.h */,
-				4336532C182DFBD500EA8CBF /* PBUIGenView.m */,
+				43365334182EC48E00EA8CBF /* PBPropertyViewController.h */,
+				43365335182EC48E00EA8CBF /* PBPropertyViewController.m */,
+				43365331182E3AB300EA8CBF /* PBComponentViewController.h */,
+				43365332182E3AB300EA8CBF /* PBComponentViewController.m */,
 				4376AC32182DB967007EEFFA /* PBAppDelegate.h */,
 				4376AC33182DB967007EEFFA /* PBAppDelegate.m */,
 				43365322182DDA2600EA8CBF /* PBUIGenViewController.h */,
@@ -315,9 +320,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4336532D182DFBD500EA8CBF /* PBUIGenView.m in Sources */,
 				4376AC34182DB967007EEFFA /* PBAppDelegate.m in Sources */,
+				43365333182E3AB300EA8CBF /* PBComponentViewController.m in Sources */,
 				4376AC3D182DB967007EEFFA /* PBViewController.m in Sources */,
+				43365336182EC48E00EA8CBF /* PBPropertyViewController.m in Sources */,
 				4336532A182DDBFC00EA8CBF /* PBDataViewController.m in Sources */,
 				4376AC30182DB967007EEFFA /* main.m in Sources */,
 				43365327182DDA3800EA8CBF /* PBGameGenViewController.m in Sources */,

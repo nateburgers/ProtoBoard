@@ -8,6 +8,8 @@
 
 #import "PBAppDelegate.h"
 #import "PBViewController.h"
+#import "PBUIGenViewController.h"
+#import "PBComponentViewController.h"
 
 @implementation PBAppDelegate
 
@@ -15,8 +17,10 @@
 {
     self.navigationController = [[UINavigationController alloc] init];
     self.masterViewController = [[PBViewController alloc] init];
-    self.window.rootViewController = self.navigationController;
-    [self.navigationController pushViewController:self.masterViewController animated:NO];
+    
+//    [self.navigationController pushViewController:self.masterViewController animated:NO];
+    [self.navigationController pushViewController:[PBUIGenViewController controllerWithJSONSerialization:@{@"entities": @{@"class1":@[@{@"x": @"200", @"y": @"100"}]}}] animated:NO];
+    [self.window setRootViewController:self.navigationController];
     [self.window makeKeyAndVisible];
     return YES;
 }

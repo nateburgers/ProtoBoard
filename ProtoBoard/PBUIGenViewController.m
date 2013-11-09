@@ -7,12 +7,15 @@
 //
 
 #import "PBUIGenViewController.h"
+#import "PBComponentViewController.h"
+#import "PBPropertyViewController.h"
 
 @interface PBUIGenViewController ()
 {
     NSCache *_cache;
     UITapGestureRecognizer *_tapRecognizer;
 }
+- (void)setupView;
 - (void)view:(UIView **)view underPoint:(CGPoint)point withParent:(UIView *)parent;
 @end
 
@@ -21,9 +24,53 @@
 - (id)initWithJSONSerialization:(NSDictionary *)json
 {
     if (self = [super initWithJSONSerialization:json]) {
-        
+        self.modalPresentationStyle = UIModalPresentationFormSheet;
+        [self setupView];
     }
     return self;
+}
+#pragma mark - Setup View
+- (void)setupView
+{
+    CGRect (^normalRect)(CGPoint center) = ^(CGPoint center){
+        return CGRectMake(center.x-100, center.y-22, 200, 44);
+    };
+    
+    NSDictionary *callbacksByClassifier = @{@"class0": ^UIView *(CGPoint center){
+        UILabel *label = [[UILabel alloc] initWithFrame:normalRect(center)];
+        label.text = @"New Label";
+        return label;
+    }, @"class1": ^UIView *(CGPoint center){
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        button.frame = normalRect(center);
+        [button setTitle:@"New Button" forState:UIControlStateNormal];
+        return button;
+    }, @"class2": ^UIView *(CGPoint center){
+        UISwitch *toggle = [[UISwitch alloc] initWithFrame:normalRect(center)];
+        toggle.on = NO;
+        return toggle;
+    }, @"class3": ^UIView *(CGPoint center){
+        UISlider *slider = [[UISlider alloc] initWithFrame:normalRect(center)];
+        slider.minimumValue = 0.f;
+        slider.maximumValue = 1.f;
+        slider.value = 0.f;
+        return slider;
+    }, @"class4": ^UIView *(CGPoint center){
+        UITextField *field = [[UITextField alloc] initWithFrame:normalRect(center)];
+        return field;
+    }};
+    
+    [self.json[@"entities"] enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSArray *objects, BOOL *stop) {
+        [objects enumerateObjectsUsingBlock:^(NSDictionary *object, NSUInteger idx, BOOL *stop) {
+            CGPoint point = CGPointMake([[NSDecimalNumber decimalNumberWithString:object[@"x"]] floatValue],
+                                        [[NSDecimalNumber decimalNumberWithString:object[@"y"]] floatValue]);
+            UIView *(^callback)(CGPoint) = callbacksByClassifier[key];
+            UIView *view = callback(point);
+            UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewWasTapped:)];
+            [view addGestureRecognizer:tapRecognizer];
+            [self.view addSubview:view];
+        }];
+    }];
 }
 
 #pragma mark - Properties
@@ -48,13 +95,50 @@
 {
     CGPoint point = [sender locationOfTouch:0 inView:self.view];
     UIView *viewUnderPoint = [self viewUnderPoint:point];
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Options" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles: nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Options" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles: @"Edit", @"Add View", @"Add View Controller", nil];
     actionSheet.delegate = self;
     
     [self.cache setObject:[[NSCache alloc] init] forKey:actionSheet];
+    
     [[self.cache objectForKey:actionSheet] setObject:^{
-        [viewUnderPoint addSubview:[UIButton buttonWithType:UIButtonTypeContactAdd]];
-    } forKey:@([actionSheet addButtonWithTitle:@"Add View"])];
+        PBPropertyViewController *propertyViewController = [[PBPropertyViewController alloc] initWithObject:viewUnderPoint andCallback:^(id object) {
+            
+        }];
+        [self.navigationController pushViewController:propertyViewController animated:YES];
+    }forKey:@(0)];
+    
+    [[self.cache objectForKey:actionSheet] setObject:^{
+        PBComponentViewController *componentPicker = [[PBComponentViewController alloc] init];
+        componentPicker.superClassString = NSStringFromClass([UIView class]);
+        [self.navigationController pushViewController:componentPicker animated:YES];
+            componentPicker.callback = ^(NSString *class){
+                
+                id object = [[NSClassFromString(class) alloc] init];
+                PBPropertyViewController *propertyViewController = [[PBPropertyViewController alloc] initWithObject:object andCallback:^(UIView *view) {
+                    view.frame = CGRectMake(point.x-100, point.y-22, 200, 44);
+                    [viewUnderPoint addSubview:view];
+                    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewWasTapped:)];
+                    [view addGestureRecognizer:tapRecognizer];
+                    [self.view setNeedsLayout];
+                    [self.view setNeedsDisplay];
+                }];
+                [self.navigationController pushViewController:propertyViewController animated:YES];
+            };
+    }forKey:@(1)];
+    
+    [[self.cache objectForKey:actionSheet] setObject:^{
+        PBComponentViewController *componentPicker = [[PBComponentViewController alloc] init];
+        componentPicker.superClassString = NSStringFromClass([UIViewController class]);
+        [self.navigationController pushViewController:componentPicker animated:YES];
+        componentPicker.callback = ^(NSString *class){
+            
+            id object = [[NSClassFromString(class) alloc] init];
+            PBPropertyViewController *propertyViewController = [[PBPropertyViewController alloc] initWithObject:object andCallback:^(id object) {
+                [self.navigationController presentViewController:propertyViewController animated:YES completion:nil];
+            }];
+            [self.navigationController pushViewController:propertyViewController animated:YES];
+        };
+    }forKey:@(2)];
     
     [actionSheet showInView:viewUnderPoint];
 }
@@ -70,7 +154,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     PBThunk thunk = [[self.cache objectForKey:actionSheet] objectForKey:@(buttonIndex)];
-    thunk();
+    if (thunk) thunk();
 }
 
 #pragma mark - Private Methods

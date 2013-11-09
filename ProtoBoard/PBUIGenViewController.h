@@ -11,6 +11,9 @@
 
 @interface PBUIGenViewController : PBDataViewController <UIActionSheetDelegate>
 
+@property (readonly) NSArray *viewControllers;
+@property (readonly) NSArray *views;
+
 @property (readonly) NSCache *cache;
 @property (readonly) UITapGestureRecognizer *tapRecognizer;
 

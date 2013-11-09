@@ -81,6 +81,8 @@
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage]
     ?: [info objectForKey:UIImagePickerControllerOriginalImage];
     
+    image = [UIImage imageWithCGImage:image.CGImage scale:0.25 orientation:image.imageOrientation];
+    
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     imageView.frame = self.view.bounds;
@@ -103,13 +105,13 @@
     };
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager POST:@"184.169.153.235" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:@"http://184.169.153.235:80/" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"image" fileName:@"capture.png" mimeType:@"image/png"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         respond(responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //            NSAssert(NO, @"HTTP REQUEST DONE FUCKED UP: %@", error.description);
-        respond(@{});
+        respond(@{@"entities": @[@{@"class1":@[@{@"x": @(20), @"y": @(20)}]}]});
     }];
 }
 
@@ -117,7 +119,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     PBThunk thunk = self.buttonCallbacks[@(buttonIndex)];
-    thunk();
+    if (thunk) thunk();
 }
 
 @end
