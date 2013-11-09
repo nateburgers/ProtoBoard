@@ -55,8 +55,10 @@ def main():
 	# 	return "Failed to get image"
 	# r.save('postimage.JPG')
 	retrain = False
-	BGIMAGE = 'xo2.JPG'
-	# BGIMAGE = 'postimage.JPG'
+	if sys.platform != "darwin":
+		BGIMAGE = 'postimage.JPG'
+	else:
+		BGIMAGE = 'xo2.JPG'
 
 	if retrain:
 		net = buildNetwork(4, 16, 2, bias=True)
@@ -249,7 +251,7 @@ def ccw(A,B,C):
 def intersect(A,B,C,D):
     return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
 if __name__ == '__main__':
-	if sys.platrorm != "darwin":
+	if sys.platform != "darwin":
 		app.run(host='0.0.0.0', debug=True, port=80)
 	else:
 		app.run(host='127.0.0.1',port=5000, debug=True)
