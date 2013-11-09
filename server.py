@@ -9,6 +9,7 @@ from pybrain.tools.xml.networkreader import NetworkReader
 import itertools
 import time
 import pygame
+import sys
 import pybrain
 import pickle
 from pybrain.tools.shortcuts import buildNetwork
@@ -98,7 +99,8 @@ def main():
 	elements = screen.findBlobs()
 
 
-
+	if elements == None:
+		return jsonify{"Error": "No elements"}
 	circles = [x for x in elements if x.isCircle(tolerance=0.7)]
 	rectangles = [x for x in elements if x.isRectangle(tolerance=0.15)]
 		
@@ -106,11 +108,11 @@ def main():
 
 
 	for b in circles:
-		b.show(color=(255,0,0))
+		# b.show(color=(255,0,0))
 		print "Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
 		# cv.WaitKey(10)
 	for b in rectangles:
-		b.show(color=(0,255,0))
+		# b.show(color=(0,255,0))
 		print "Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
 		# cv.WaitKey(10)
 	centers = []
@@ -145,7 +147,7 @@ def main():
 			features = []
 			print b.width
 			i = b.blobImage().binarize()
-			b.blobImage().show()
+			# b.blobImage().show()
 			i1 = raw_input()
 			if i1 == "0":
 				end = [0,1]
@@ -185,14 +187,14 @@ def main():
 		v = net.activate(features)
 		print v
 		if v[0] > v[1]:
-			b.show(color=(0,0,255))
+			# b.show(color=(0,0,255))
 			if old[2] == 'rec':
 				class1.append(old[1])
 			else:
 				class2.append(old[1])
 			pass
 		else:
-			b.show(color=(0,255,255))
+			# b.show(color=(0,255,255))
 			if old[2] == 'rec':
 				class3.append(old[1])
 			else:
@@ -247,8 +249,9 @@ def ccw(A,B,C):
 def intersect(A,B,C,D):
     return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
 if __name__ == '__main__':
-	# app.run(host='0.0.0.0',port=80)
-	# app.run(host='127.0.0.1',port=5000, debug=True)
-
-	main()
+	if sys.platrorm != "darwin":
+		app.run(host='0.0.0.0', debug=True, port=80)
+	else:
+		app.run(host='127.0.0.1',port=5000, debug=True)
+	# main()
 
