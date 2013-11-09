@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class PBViewController;
 @interface PBAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property UINavigationController *navigationController;
+@property PBViewController *masterViewController;
 
 @end

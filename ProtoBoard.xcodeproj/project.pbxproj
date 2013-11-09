@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43365324182DDA2600EA8CBF /* PBUIGenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43365323182DDA2600EA8CBF /* PBUIGenViewController.m */; };
+		43365327182DDA3800EA8CBF /* PBGameGenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43365326182DDA3800EA8CBF /* PBGameGenViewController.m */; };
+		4336532A182DDBFC00EA8CBF /* PBDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43365329182DDBFC00EA8CBF /* PBDataViewController.m */; };
+		4336532D182DFBD500EA8CBF /* PBUIGenView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4336532C182DFBD500EA8CBF /* PBUIGenView.m */; };
 		4376AC24182DB967007EEFFA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376AC23182DB967007EEFFA /* Foundation.framework */; };
 		4376AC26182DB967007EEFFA /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376AC25182DB967007EEFFA /* CoreGraphics.framework */; };
 		4376AC28182DB967007EEFFA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376AC27182DB967007EEFFA /* UIKit.framework */; };
@@ -22,6 +26,7 @@
 		4376AC48182DB967007EEFFA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4376AC27182DB967007EEFFA /* UIKit.framework */; };
 		4376AC50182DB968007EEFFA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4376AC4E182DB968007EEFFA /* InfoPlist.strings */; };
 		4376AC52182DB968007EEFFA /* ProtoBoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4376AC51182DB968007EEFFA /* ProtoBoardTests.m */; };
+		94010334B5904D17AD2804C6 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 708A8511F5AA43F1BDF54ECD /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +40,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		43365322182DDA2600EA8CBF /* PBUIGenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBUIGenViewController.h; sourceTree = "<group>"; };
+		43365323182DDA2600EA8CBF /* PBUIGenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBUIGenViewController.m; sourceTree = "<group>"; };
+		43365325182DDA3800EA8CBF /* PBGameGenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBGameGenViewController.h; sourceTree = "<group>"; };
+		43365326182DDA3800EA8CBF /* PBGameGenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBGameGenViewController.m; sourceTree = "<group>"; };
+		43365328182DDBFC00EA8CBF /* PBDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBDataViewController.h; sourceTree = "<group>"; };
+		43365329182DDBFC00EA8CBF /* PBDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBDataViewController.m; sourceTree = "<group>"; };
+		4336532B182DFBD500EA8CBF /* PBUIGenView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PBUIGenView.h; sourceTree = "<group>"; };
+		4336532C182DFBD500EA8CBF /* PBUIGenView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PBUIGenView.m; sourceTree = "<group>"; };
 		4376AC20182DB967007EEFFA /* ProtoBoard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProtoBoard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4376AC23182DB967007EEFFA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4376AC25182DB967007EEFFA /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -55,6 +68,8 @@
 		4376AC4D182DB968007EEFFA /* ProtoBoardTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ProtoBoardTests-Info.plist"; sourceTree = "<group>"; };
 		4376AC4F182DB968007EEFFA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4376AC51182DB968007EEFFA /* ProtoBoardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProtoBoardTests.m; sourceTree = "<group>"; };
+		708A8511F5AA43F1BDF54ECD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EC5A1EF31BC4FA08E20A2B5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +80,7 @@
 				4376AC26182DB967007EEFFA /* CoreGraphics.framework in Frameworks */,
 				4376AC28182DB967007EEFFA /* UIKit.framework in Frameworks */,
 				4376AC24182DB967007EEFFA /* Foundation.framework in Frameworks */,
+				94010334B5904D17AD2804C6 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +104,7 @@
 				4376AC4B182DB968007EEFFA /* ProtoBoardTests */,
 				4376AC22182DB967007EEFFA /* Frameworks */,
 				4376AC21182DB967007EEFFA /* Products */,
+				9EC5A1EF31BC4FA08E20A2B5 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +124,7 @@
 				4376AC25182DB967007EEFFA /* CoreGraphics.framework */,
 				4376AC27182DB967007EEFFA /* UIKit.framework */,
 				4376AC45182DB967007EEFFA /* XCTest.framework */,
+				708A8511F5AA43F1BDF54ECD /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -114,8 +132,16 @@
 		4376AC29182DB967007EEFFA /* ProtoBoard */ = {
 			isa = PBXGroup;
 			children = (
+				4336532B182DFBD500EA8CBF /* PBUIGenView.h */,
+				4336532C182DFBD500EA8CBF /* PBUIGenView.m */,
 				4376AC32182DB967007EEFFA /* PBAppDelegate.h */,
 				4376AC33182DB967007EEFFA /* PBAppDelegate.m */,
+				43365322182DDA2600EA8CBF /* PBUIGenViewController.h */,
+				43365323182DDA2600EA8CBF /* PBUIGenViewController.m */,
+				43365328182DDBFC00EA8CBF /* PBDataViewController.h */,
+				43365329182DDBFC00EA8CBF /* PBDataViewController.m */,
+				43365325182DDA3800EA8CBF /* PBGameGenViewController.h */,
+				43365326182DDA3800EA8CBF /* PBGameGenViewController.m */,
 				4376AC35182DB967007EEFFA /* Main_iPhone.storyboard */,
 				4376AC38182DB967007EEFFA /* Main_iPad.storyboard */,
 				4376AC3B182DB967007EEFFA /* PBViewController.h */,
@@ -162,9 +188,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4376AC55182DB968007EEFFA /* Build configuration list for PBXNativeTarget "ProtoBoard" */;
 			buildPhases = (
+				3FC2587DC23A487390A31327 /* Check Pods Manifest.lock */,
 				4376AC1C182DB967007EEFFA /* Sources */,
 				4376AC1D182DB967007EEFFA /* Frameworks */,
 				4376AC1E182DB967007EEFFA /* Resources */,
+				7833F563BC8D481D99CAA33A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -249,14 +277,51 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3FC2587DC23A487390A31327 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7833F563BC8D481D99CAA33A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4376AC1C182DB967007EEFFA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4336532D182DFBD500EA8CBF /* PBUIGenView.m in Sources */,
 				4376AC34182DB967007EEFFA /* PBAppDelegate.m in Sources */,
 				4376AC3D182DB967007EEFFA /* PBViewController.m in Sources */,
+				4336532A182DDBFC00EA8CBF /* PBDataViewController.m in Sources */,
 				4376AC30182DB967007EEFFA /* main.m in Sources */,
+				43365327182DDA3800EA8CBF /* PBGameGenViewController.m in Sources */,
+				43365324182DDA2600EA8CBF /* PBUIGenViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +451,7 @@
 		};
 		4376AC56182DB968007EEFFA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9EC5A1EF31BC4FA08E20A2B5 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -399,6 +465,7 @@
 		};
 		4376AC57182DB968007EEFFA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9EC5A1EF31BC4FA08E20A2B5 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -469,6 +536,7 @@
 				4376AC57182DB968007EEFFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4376AC58182DB968007EEFFA /* Build configuration list for PBXNativeTarget "ProtoBoardTests" */ = {
 			isa = XCConfigurationList;
@@ -477,6 +545,7 @@
 				4376AC5A182DB968007EEFFA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

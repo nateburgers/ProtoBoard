@@ -7,12 +7,17 @@
 //
 
 #import "PBAppDelegate.h"
+#import "PBViewController.h"
 
 @implementation PBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    self.navigationController = [[UINavigationController alloc] init];
+    self.masterViewController = [[PBViewController alloc] init];
+    self.window.rootViewController = self.navigationController;
+    [self.navigationController pushViewController:self.masterViewController animated:NO];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 							
