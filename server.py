@@ -12,6 +12,7 @@ import itertools
 import time
 import pygame
 import pybrain
+import pickle
 from pybrain.tools.shortcuts import buildNetwork
 from pybrain.supervised.trainers import BackpropTrainer
 from pybrain.datasets import SupervisedDataSet
@@ -30,7 +31,6 @@ app.config.from_object(__name__)
 
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
 
-BGIMAGE = 'board6.JPG'
 keymap = {}
 allLines = []
 g = []
@@ -49,168 +49,181 @@ def test():
 	return "Testing 123"
 @app.route('/', methods = ['GET','POST'])
 def main():
-	print "DATA"
 	# print request.files
 	# try:
 	# 	r =  request.files['image']
 	# except:
 	# 	return "Failed to get image"
 	# r.save('postimage.JPG')
-	BGIMAGE = 'img.JPG'
-	
-	# return "ASD\n"
-	xSpeed = 0
-	ySpeed = 0
+	retrain = False
+	BGIMAGE = 'xo4.JPG'
+	if retrain:
+		net = buildNetwork(4, 16, 2, bias=True)
+	else:
+		net = NetworkReader.readFrom('network.xml') 
 	simplecvimg = Image(BGIMAGE).scale(600,600).rotate(270)
-	train = False
 	# blue = simplecvimg.colorDistance((2,7,63)) * 2  #scale up
 	
-	blue = simplecvimg.colorDistance((20,32,170)) * 1.6  #scale up
+	blue = simplecvimg.colorDistance((20,32,170)) * 1.5  #scale up
 
-	blueBlobs = blue.findLines()
+	
+	blueBlobs = blue.findBlobs()
 
-	# blue.show()
 	# cv.WaitKey(10000)
 	# red = simplecvimg.colorDistance((62,5,13)) 
 	red = simplecvimg.colorDistance((130,20,20))
 
 	green = simplecvimg.colorDistance((140,190,40))
 
-	# l1 = DrawingLayer((simplecvimg.width, simplecvimg.height))
+	l1 = DrawingLayer((simplecvimg.width, simplecvimg.height))
 
-	blueBlobs.show()
+	# blueBlobs.show()
+	big, second, = None, None
+	maxx, twomaxx = 0,0
 
-	# maxBlob.show()
-	while True:
-		cv.WaitKey(10)
-	return 
-	redBlobs = (simplecvimg - red).findBlobs(minsize=200)
-	blueLine = (simplecvimg - blue).findBlobs()
-	greenBlobs = (simplecvimg - green).findBlobs()
+	for b in blueBlobs:
+		if b.area() > maxx:
+			twomaxx = maxx
+			maxx = b.area()
+			second = big
+			big = b
 
-	simplecvimg.addDrawingLayer(l1)
-	simplecvimg.applyLayers()
 
-	return 
-	if redBlobs != None:
-		for r in redBlobs:
-			#check for location and shape and size if necessary
-			#end point!
-			endSet = False
-			if r.isCircle(tolerance=.5):
-				print "Circle"
-			else:	
-				endSet = True
-				print "GOT END"
-				endPoint = r.centroid()
-				endh = r.minRectHeight()
-				endw = r.minRectWidth()
-				endx = r.minRectX()
-				endy = r.minRectY()
-		if endSet == False:
-			endh = -1
-			endw = -1
-			endx = -1
-			endy = -1
-		print "RED BLOBS FOUND"
-		for r in redBlobs:
+	screen = second.crop().invert()
+	screen = screen.crop(screen.width/2, screen.height/2, screen.width-50, screen.height-20, centered=True)
+	screen.show()
+	w = screen.width * 1.0
+	h = screen.height * 1.0
+	elements = screen.findBlobs()
 
-			print "Loc: " + str(r.centroid()) + " Area: " + str(r.area())
-			rh = r.minRectHeight()/2
-			rw = r.minRectWidth()/2
-			x = r.minRectX()
-			y = r.minRectY()
-			print x,y
-			edge = (int(round(x,0)),int(round(y,0)))
-			l1.circle(edge, 10)
-			x, y = edge
-			newI = simplecvimg.crop(x-rw,y-rh,rw*2,rh*2)
-			# l1.rectangle(x-(rw/2),y-(rh/2),color=Color.GREEN)
-			black = newI.colorDistance((255,255,255)) * 6
-			# if train:
-			# 	f = open('training.txt', 'a')
 
-			# for x in range(4):
-			# 	for y in range(4):
-			# 		l = black.width/4
-			# 		h = black.height/4
-			# 		n = black.crop(l*x,l*y,l,h)
-			# 		#up down left right
-			# 		n.show()
-			# 		z = list(n.meanColor())
-			# 		if train:
-			# 			f.write(str(z)+':1,0,0,0\n')
 
-			# 		cv.WaitKey(100)
-
-			if train:
-				f.close()
-			# black.show() 
-			# for x in range(1000):
-			# 	cv.WaitKey(10)
-
-			#lets find an arrow  
-
-	if blueLine != None:
-		blueLine[0].drawOutline(layer=l1,color=(255,0,0),width=3,alpha=128)
-
-		# blue = blueLine[0].blobMask()
-	lines = []
-	for blueBlob in blueLine:
-		c = blueBlob.contour()
+	circles = [x for x in elements if x.isCircle(tolerance=0.7)]
+	rectangles = [x for x in elements if x.isRectangle(tolerance=0.15)]
 		
-		# d = blue.fitContour(c)
-		startPoint = (1000,10000)
-		for x in c:
-			if x[0] < startPoint[0]:
-				startPoint = x
-		end = (-10,-10)
-		for x in c:
-			if x[0] > end[0]:
-				end = x
-		print end
+	circles = [x for x in circles if x not in rectangles]
 
 
+	for b in circles:
+		b.show(color=(255,0,0))
+		print "Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
+		# cv.WaitKey(10)
+	for b in rectangles:
+		b.show(color=(0,255,0))
+		print "Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
+		# cv.WaitKey(10)
+	centers = []
+	for x in rectangles + circles:
+		cr = circles + rectangles
+		cr.remove(x)
+		for y in cr:
+			c1 = x.centroid()
+			h = x.minRectHeight()
+			w = x.minRectWidth()
+			c2 = y.centroid()
+			if c2[0] < (c1[0] + w) and c2[0] >(c1[0] - w)  and c2[1] < (c1[1] + h)  and c2[1] > (c1[1] - h)  and y.area() < x.area():
+				# x.show(color=(200,100,200))
+				# y.show(color=(50,50,255))
+				if x in rectangles:
+					centers.append([y,x,'rec'])
+				else:
+					centers.append([y,x,'cir'])
+				if x in circles:
+					circles.remove(x)
+				else:
+					rectangles.remove(x)
 
-		importantPoints = [startPoint]
-		for point in c:
-			y_delta = point[1]-importantPoints[-1][1]
-			if point[0] > importantPoints[-1][0] and (y_delta > 10 or y_delta<-10):
-				importantPoints.append(point)
-		importantPoints.append(end)
-		past = importantPoints[0]
-		curLines = []
-		for p in importantPoints:
-			l1.circle(p,10)
-			curLines.append((past[0],past[1], p[0],p[1]))
-			past = p
-		allLines.append(curLines)
-		lines.append(importantPoints)
+	# cv.WaitKey(10000)
+	# centers = list((set(circles + rectangles)) - set(centers))
+	allFeatures = []
+	if retrain:
+		ds = SupervisedDataSet(4, 2)
+		for b in centers:
+			old = b
+			b = b[0]
+			features = []
+			print b.width
+			i = b.blobImage().binarize()
+			b.blobImage().show()
+			i1 = raw_input()
+			if i1 == "0":
+				end = [0,1]
 
-	blue.addDrawingLayer(l1)
-	blue.applyLayers()
-	# blue.show()
-	# for x in range(500):
+			else:
+				end = [1,0]
+			print end
+			for x in range(0,2):
+				for y in range(0,2):
+					print i.width*x,i.width * (x+1),i.height*y,i.height * (y+1)
+					z = i.crop((i.width/2) * x, (i.height/2) * y, i.width/2, i.height/2, centered=True)
+					features.append(z.meanColor())
+			features = [x[0] for x in features]
+			allFeatures.append(features)
+			ds.addSample(features,end)
+		
+		trainer  = BackpropTrainer(net, ds)
+		t = 10
+		while t > .01:
+			t = trainer.train()
+			print t
+		NetworkWriter.writeToFile(net, 'network.xml')
+	class1, class2, class3, class4 = [],[],[],[]
+	for b in centers:
+		old = b
+		b = b[0]
+		features = []
+
+		i = b.blobImage().binarize()
+		
+		for x in range(0,2):
+			for y in range(0,2):
+				z = i.crop((i.width/2) * x, (i.height/2) * y, i.width/2, i.height/2, centered=True)
+				features.append(z.meanColor())
+		features = [x[0] for x in features]
+		
+		v = net.activate(features)
+		print v
+		if v[0] > v[1]:
+			b.show(color=(0,0,255))
+			if old[2] == 'rec':
+				class1.append(old[1])
+			else:
+				class2.append(old[1])
+			pass
+		else:
+			b.show(color=(0,255,255))
+			if old[2] == 'rec':
+				class3.append(old[1])
+			else:
+				class4.append(old[1])
+
+		# print "Internal Shape Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
+		# cv.WaitKey(100)
+
+
+	# while True:
 	# 	cv.WaitKey(10)
-
-	# 	cv.WaitKey(10)
-	for x in greenBlobs:
-		g.append(x.centroid())
-	total = []
-	for l in allLines:
-		past = l[0]
-		for x in l[1:]:
-			total.append((past[:2],x[2:]))
-			past = x
-
-
-	print total
+	 
+	
+	print len(class1)
+	print len(class2)
+	print len(class3)
+	print len(class4)
+	class5 = set(circles) - set(class1 + class2 + class3 + class4)
+	class6 = set(rectangles) - set(class1 + class2 + class3 + class4 + [x[0] for x in centers])
+	print len(class5)
+	print len(class6)
 
 
+	classes = [class1,class2,class3,class4,class5,class6]
+	for x in classes:
+		x1 = [z.centroid() for z in x]
+		x1 = [( z[0]/screen.width,z[1]/screen.height) for z in x1]
+		classes[classes.index(x)] = x1
 
-	print '\n\n\n'
-	retValues = {'obstacles': {'lines': total,'dudes':[{'dudex':x[0],'dudey':x[1]} for x in g],'end':{'x':endx,'y':endy,'height':endh,'width':endy}}}
+	retValues = {'entities': {"class"+str(classes.index(c)) : c for c in classes}}
 	print retValues
+
 
 	return jsonify(retValues)
 def seg_intersect(a,b):
@@ -228,8 +241,8 @@ def intersect(A,B,C,D):
     return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
 if __name__ == '__main__':
 	# app.run(host='0.0.0.0',port=80)
-	# app.run(host='127.0.0.1',port=5000)
+	app.run(host='127.0.0.1',port=5000)
 
-	main()
+	# main()
 
 	# 37 87 98
