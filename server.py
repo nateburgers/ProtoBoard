@@ -54,8 +54,8 @@ def main():
 	# 	return "Failed to get image"
 	# r.save('postimage.JPG')
 	retrain = False
-	BGIMAGE = 'xo4.JPG'
-	BGIMAGE = 'postimage.JPG'
+	BGIMAGE = 'xo2.JPG'
+	# BGIMAGE = 'postimage.JPG'
 
 	if retrain:
 		net = buildNetwork(4, 16, 2, bias=True)
@@ -92,6 +92,7 @@ def main():
 	screen = second.crop().invert()
 	screen = screen.crop(screen.width/2, screen.height/2, screen.width-50, screen.height-20, centered=True)
 	#screen.show()
+	screen.save("cropped.png")
 	w = screen.width * 1.0
 	h = screen.height * 1.0
 	elements = screen.findBlobs()
@@ -105,11 +106,11 @@ def main():
 
 
 	for b in circles:
-		#b.show(color=(255,0,0))
+		b.show(color=(255,0,0))
 		print "Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
 		# cv.WaitKey(10)
 	for b in rectangles:
-		#b.show(color=(0,255,0))
+		b.show(color=(0,255,0))
 		print "Coordinates: " + str(b.x/w) + ", " + str(b.y/h)
 		# cv.WaitKey(10)
 	centers = []
@@ -130,7 +131,7 @@ def main():
 					centers.append([y,x,'cir'])
 				if x in circles:
 					circles.remove(x)
-				else:
+				elif x in rectangles:
 					rectangles.remove(x)
 
 	# cv.WaitKey(10000)
@@ -144,11 +145,10 @@ def main():
 			features = []
 			print b.width
 			i = b.blobImage().binarize()
-			#b.blobImage().show()
+			b.blobImage().show()
 			i1 = raw_input()
 			if i1 == "0":
 				end = [0,1]
-
 			else:
 				end = [1,0]
 			print end
@@ -168,6 +168,7 @@ def main():
 			print t
 		NetworkWriter.writeToFile(net, 'network.xml')
 	class1, class2, class3, class4 = [],[],[],[]
+	circles = [x for x in circles if x not in [y[0] for y in centers]]
 	for b in centers:
 		old = b
 		b = b[0]
@@ -184,14 +185,14 @@ def main():
 		v = net.activate(features)
 		print v
 		if v[0] > v[1]:
-			#b.show(color=(0,0,255))
+			b.show(color=(0,0,255))
 			if old[2] == 'rec':
 				class1.append(old[1])
 			else:
 				class2.append(old[1])
 			pass
 		else:
-			#b.show(color=(0,255,255))
+			b.show(color=(0,255,255))
 			if old[2] == 'rec':
 				class3.append(old[1])
 			else:
@@ -204,9 +205,11 @@ def main():
 	# while True:
 	# 	cv.WaitKey(10)
 	 
-	
+	class3 = list(set(class3) - set(class1 + class2  +[x[0] for x in centers]))
 
-	class5 = set(circles) - set(class1 + class2 + class3 + class4)
+	class4 = list(set(class4) - set(class1 + class2 + class3 +[x[0] for x in centers]))
+
+	class5 = set(circles) - set(class1 + class2 + class3 + class4 + [x[0] for x in centers])
 	class6 = set(rectangles) - set(class1 + class2 + class3 + class4 + [x[0] for x in centers])
 
 
@@ -216,11 +219,20 @@ def main():
 		x1 = [( z[0]/screen.width,z[1]/screen.height) for z in x1]
 		classes[classes.index(x)] = x1
 
+	classes = [list(set(x)) for x in classes]
+
+	for c in classes:
+		print len(c)
+	for x in class3[0:]:
+		x.show(color=(255,0,0))
+		cv.WaitKey(1000)
 	retValues = {'entities': {"class"+str(classes.index(c)) : c for c in classes}}
 	print retValues
 
+	while True:
+		cv.WaitKey(10)
 
-	return jsonify(retValues)
+	# return jsonify(retValues)
 def seg_intersect(a,b):
 	a1 = Point(a[0],a[1])
 	a2 = Point(a[2],a[3])
@@ -236,7 +248,7 @@ def intersect(A,B,C,D):
     return ccw(A,C,D) != ccw(B,C,D) and ccw(A,B,C) != ccw(A,B,D)
 if __name__ == '__main__':
 	# app.run(host='0.0.0.0',port=80)
-	app.run(host='127.0.0.1',port=5000, debug=True)
+	# app.run(host='127.0.0.1',port=5000, debug=True)
 
-	# main()
+	main()
 
