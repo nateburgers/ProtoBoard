@@ -6,21 +6,13 @@ from pybrain.supervised.trainers import BackpropTrainer
 from pybrain.datasets import SupervisedDataSet
 from pybrain.tools.xml.networkwriter import NetworkWriter
 from pybrain.tools.xml.networkreader import NetworkReader
-import itertools
-import time
-import pygame
 import sys
-import pybrain
 import pickle
 from pybrain.tools.shortcuts import buildNetwork
-from pybrain.supervised.trainers import BackpropTrainer
-from pybrain.datasets import SupervisedDataSet
-from pybrain.tools.xml.networkwriter import NetworkWriter
-from pybrain.tools.xml.networkreader import NetworkReader
-import itertools
-import time
 from flask import Flask, request, session, g, redirect, url_for, \
 	 abort, render_template, flash, jsonify
+
+	 
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
