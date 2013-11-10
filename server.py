@@ -35,9 +35,9 @@ class Point(object):
 		'''Defines x and y variables'''
 		self.x = x
 		self.y = y
-@app.route('/test')
+@app.route('/image')
 def test():
-	return "Testing 123"
+	return send_file('postimage.JPG', mimetype='image/JPG')
 @app.route('/', methods = ['GET','POST'])
 def main():
 	
@@ -234,7 +234,6 @@ def main():
 
 	# while True:
 	# 	cv.WaitKey(10)
-	return None
 	return jsonify(retValues)
 
 # Return true if line segments AB and CD intersect
