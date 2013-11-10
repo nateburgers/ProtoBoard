@@ -112,7 +112,6 @@
         componentPicker.superClassString = NSStringFromClass([UIView class]);
         [self.navigationController pushViewController:componentPicker animated:YES];
             componentPicker.callback = ^(NSString *class){
-                
                 id object = [[NSClassFromString(class) alloc] init];
                 PBPropertyViewController *propertyViewController = [[PBPropertyViewController alloc] initWithObject:object andCallback:^(UIView *view) {
                     view.frame = CGRectMake(point.x-100, point.y-22, 200, 44);

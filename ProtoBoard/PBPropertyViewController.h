@@ -12,12 +12,16 @@ typedef void (^PBPropertyCompletion)(id object);
 
 @interface PBPropertyViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate>
 
-- (id) initWithObject:(id)object andCallback:(PBPropertyCompletion)block;
-
 @property (strong, readonly) PBPropertyCompletion callback;
 @property (readonly) id object;
 @property (readonly) NSDictionary *typesByProperty;
 
+- (id) initWithObject:(id)object andCallback:(PBPropertyCompletion)block;
+
 - (void) create:(id)sender;
+
+- (NSString *)typeOf:(NSString *)property inClass:(NSString *)class;
+
+- (NSDictionary *)typesByPropertyOfClass:(NSString *)class;
 
 @end

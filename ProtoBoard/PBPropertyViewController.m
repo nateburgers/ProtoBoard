@@ -30,9 +30,14 @@
 
 - (NSDictionary *)typesByProperty
 {
+    return [self typesByPropertyOfClass:NSStringFromClass([self.object class])];
+}
+
+- (NSDictionary *)typesByPropertyOfClass:(NSString *)class
+{
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     NSUInteger count;
-    objc_property_t *properties = class_copyPropertyList([self.object class], &count);
+    objc_property_t *properties = class_copyPropertyList(NSClassFromString(class), &count);
     for (size_t i=0; i<count; i++) {
         objc_property_t property = properties[i];
         
@@ -94,7 +99,8 @@
     cell.textLabel.text = key;
     cell.detailTextLabel.text = class;
     
-    if ([[self.object valueForKey:key] isKindOfClass:[NSString class]]){
+    Class propertyClass = NSClassFromString([self typesByPropertyOfClass:NSStringFromClass([self.object class])][key]);
+    if ([[[propertyClass alloc] init] isKindOfClass:[NSString class]]){
         UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(110.f, 10.f, 200.f, 30.f)];
         cell.accessoryView = textField;
     }
@@ -110,7 +116,10 @@
     Class propertyClass = NSClassFromString([[self.typesByProperty allValues] objectAtIndex:[indexPath indexAtPosition:1]]);
     
     PBPropertyViewController *nestedController = [[PBPropertyViewController alloc] initWithObject:[[propertyClass alloc]init] andCallback:^(id object) {
-        [self.object setValue:object forKey:key];
+        NSString *cap = [[key substringToIndex:1] capitalizedString];
+        NSString *rest = [key substringWithRange:NSMakeRange(1, key.length-1)];
+        NSString *selector = [NSString stringWithFormat:@"set%@%@:", cap, rest];
+        [self.object performSelector:NSSelectorFromString(selector) withObject:object];
     }];
     [self.navigationController pushViewController:nestedController animated:YES];
 }
