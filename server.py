@@ -12,7 +12,7 @@ from pybrain.tools.shortcuts import buildNetwork
 from flask import Flask, request, session, g, redirect, url_for, \
 	 abort, render_template, flash, jsonify
 
-	 
+
 DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
@@ -51,7 +51,7 @@ def main():
 	if sys.platform != "darwin":
 		BGIMAGE = 'postimage.JPG'
 	else:
-		BGIMAGE = 'xo3.JPG'
+		BGIMAGE = 'xo2.JPG'
 
 	if retrain:
 		net = buildNetwork(4, 16, 2, bias=True)
@@ -217,8 +217,8 @@ def main():
 
 	classes = [class1,class2,class3,class4,class5,class6]
 	for x in classes:
-		x1 = [z.centroid() for z in x]
-		x1 = [( z[0]/screen.width,z[1]/screen.height) for z in x1]
+		x1 = [(z.centroid(), z.width()/float(screen.width),z.height()/float(screen.height)) for z in x]
+		x1 = [(z[0][0]/screen.width,z[0][1]/screen.height, z[1],z[2]) for z in x1]
 		classes[classes.index(x)] = x1
 
 	classes = [list(set(x)) for x in classes]
