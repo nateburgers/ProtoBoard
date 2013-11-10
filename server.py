@@ -51,7 +51,7 @@ def main():
 	if sys.platform != "darwin":
 		BGIMAGE = 'postimage.JPG'
 	else:
-		BGIMAGE = 'xo2.JPG'
+		BGIMAGE = 'color4.JPG'
 
 	if retrain:
 		net = buildNetwork(4, 16, 2, bias=True)
@@ -61,18 +61,14 @@ def main():
 	# blue = simplecvimg.colorDistance((2,7,63)) * 2  #scale up
 	
 	blue = simplecvimg.colorDistance((20,32,170)) * 1.5  #scale up
+	red = simplecvimg.colorDistance((255,0,0)) * 2
 
 	blueBlobs = blue.findBlobs()
-	
-	# cv.WaitKey(10000)
-	# red = simplecvimg.colorDistance((62,5,13)) 
-	red = simplecvimg.colorDistance((130,20,20))
-
-	green = simplecvimg.colorDistance((140,190,40))
 
 	l1 = DrawingLayer((simplecvimg.width, simplecvimg.height))
 
 	# blueBlobs.show()
+	# cv.WaitKey(1000)
 	big, second, = None, None
 	maxx, twomaxx = 0,0
 
@@ -83,8 +79,15 @@ def main():
 			second = big
 			big = b
 
-
 	screen = second.crop().invert()
+	print big.minRect()
+	print red
+	# cv.WaitKey(10000)
+	# red = simplecvimg.colorDistance((62,5,13)) 
+
+	# green = simplecvimg.colorDistance((140,190,40))
+	# red.show()
+	# cv.WaitKey(5000)
 	screen = screen.crop(screen.width/2, screen.height/2, screen.width-50, screen.height-20, centered=True)
 	if mac:
 		screen.show()
@@ -229,9 +232,10 @@ def main():
 	retValues = {'entities': {"class"+str(classes.index(c)) : c for c in classes}}
 	print retValues
 
-	while True:
-		cv.WaitKey(10)
-	# return jsonify(retValues)
+	# while True:
+	# 	cv.WaitKey(10)
+	return None
+	return jsonify(retValues)
 
 # Return true if line segments AB and CD intersect
 def intersect(A,B,C,D):
