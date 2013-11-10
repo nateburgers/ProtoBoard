@@ -10,7 +10,7 @@ import sys
 import pickle
 from pybrain.tools.shortcuts import buildNetwork
 from flask import Flask, request, session, g, redirect, url_for, \
-	 abort, render_template, flash, jsonify
+	 abort, render_template, flash, jsonify, send_file
 
 
 DEBUG = True
@@ -54,7 +54,7 @@ def main():
 	if sys.platform != "darwin":
 		BGIMAGE = 'postimage.JPG'
 	else:
-		BGIMAGE = '.JPG'
+		BGIMAGE = 'bad2.JPG'
 
 	if retrain:
 		net = buildNetwork(4, 16, 2, bias=True)
@@ -63,7 +63,7 @@ def main():
 	simplecvimg = Image(BGIMAGE).scale(600,600).rotate(270)
 	# blue = simplecvimg.colorDistance((2,7,63)) * 2  #scale up
 	
-	blue = simplecvimg.colorDistance((20,32,170)) * 1.5  #scale up
+	blue = simplecvimg.colorDistance((29,69,160)) * 1.3  #scale up
 	red = simplecvimg.colorDistance((255,0,0)) * 2
 
 	blueBlobs = blue.findBlobs()
@@ -82,10 +82,9 @@ def main():
 			big = b
 	second.show()
 
-	cv.WaitKey(5000)
+	# cv.WaitKey(5000)
 	screen = second.crop().invert()
-	print big.minRect()
-	print red
+
 	# cv.WaitKey(10000)
 	# red = simplecvimg.colorDistance((62,5,13)) 
 
@@ -95,7 +94,10 @@ def main():
 	screen = screen.crop(screen.width/2, screen.height/2, screen.width-50, screen.height-20, centered=True)
 	if mac:
 		screen.show()
-	screen.save("cropped.png")
+	if screen == None:
+		return jsonify({"Error": "CANNOT EXTRACT"})
+	screen.save("cropped.JPG")
+	print "SAVED"
 	w = screen.width * 1.0
 	h = screen.height * 1.0
 	elements = screen.findBlobs()
@@ -236,8 +238,8 @@ def main():
 	retValues = {'entities': {"class"+str(classes.index(c)) : c for c in classes}}
 	print retValues
 
-	# while True:
-	# 	cv.WaitKey(10)
+	while True:
+		cv.WaitKey(10)
 	return jsonify(retValues)
 
 # Return true if line segments AB and CD intersect
