@@ -38,6 +38,9 @@ class Point(object):
 @app.route('/image')
 def test():
 	return send_file('postimage.JPG', mimetype='image/JPG')
+@app.route('/crop')
+def test2():
+	return send_file('cropped.JPG', mimetype='image/JPG')
 @app.route('/', methods = ['GET','POST'])
 def main():
 	
@@ -51,7 +54,7 @@ def main():
 	if sys.platform != "darwin":
 		BGIMAGE = 'postimage.JPG'
 	else:
-		BGIMAGE = 'color4.JPG'
+		BGIMAGE = '.JPG'
 
 	if retrain:
 		net = buildNetwork(4, 16, 2, bias=True)
@@ -67,8 +70,7 @@ def main():
 
 	l1 = DrawingLayer((simplecvimg.width, simplecvimg.height))
 
-	# blueBlobs.show()
-	# cv.WaitKey(1000)
+
 	big, second, = None, None
 	maxx, twomaxx = 0,0
 
@@ -78,7 +80,9 @@ def main():
 			maxx = b.area()
 			second = big
 			big = b
+	second.show()
 
+	cv.WaitKey(5000)
 	screen = second.crop().invert()
 	print big.minRect()
 	print red
